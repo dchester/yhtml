@@ -1,0 +1,169 @@
+<!doctype html>
+<link rel="stylesheet" href="style.css">
+<todo-app></todo-app>
+
+<script>
+
+const store = {
+  filter: 'all',
+  items: Array(10).fill(0).map(i =>
+    ({ title: Math.random().toString(36).slice(2), done: 0 })
+  ),
+  setFilter(v) {
+    this.filter = v;
+    window.dispatchEvent(new Event('state-change'))
+  },
+  setItem(i, data) {
+    Object.assign(this.items[i], data);
+    window.dispatchEvent(new Event('state-change'))
+  },
+  removeItem(i) {
+    this.items.splice(i, 1)
+    window.dispatchEvent(new Event('state-change'))
+  },
+  getFilteredItems() {
+    return this.items.filter(i => {
+      if (this.filter == 'all') return true
+      if (this.filter == 'completed' && i.done) return true
+      if (this.filter == 'active' && !i.done) return true
+    })
+  },
+  clearCompleted() {
+    this.items = this.items.filter(i => !i.done)
+    window.dispatchEvent(new Event('state-change'))
+  },
+  addItem(title) {
+    store.items.unshift({ title, done: false })
+    window.dispatchEvent(new Event('state-change'))
+  }
+}
+
+class TodoApp extends HTMLElement {
+  connectedCallback() {
+    this.render()
+    window.addEventListener('state-change', _ => this.render())
+  }
+  get $input() {
+    return this.querySelector('[ref="input"]')
+  }
+  addItem(e) {
+    e.preventDefault()
+    store.addItem(this.$input.value)
+    this.$input.focus()
+  }
+  render() {
+    this.innerHTML = html`
+      <card>
+        <h1>todos</h1>
+        <form class="add-item" @submit="addItem">
+          <input ref="input" name="title" type="text" placeholder="What needs doing?">
+        </form>
+        <todo-list></todo-list>
+      </card>
+      <footer class="muted">
+        Double-click to edit a todo
+      </footer>
+    `
+  }
+}
+
+class TodoList extends HTMLElement {
+  connectedCallback() {
+    this.render()
+  }
+  setFilter(e) {
+    store.setFilter(e.target.dataset.filter)
+  }
+  clearCompleted() {
+    store.clearCompleted();
+  }
+  render() {
+    const items = store.getFilteredItems()
+    this.innerHTML = html`
+      <div class="items">
+        ${items.map(i => html`
+          <todo-item data-index="${store.items.findIndex(item => i == item)}"></todo-item>
+        `)}
+      </div>
+      ${store.items.length > 0 && html`
+        <footer class="flex">
+          <span>${items.length} items</span>
+          <span>
+            ${['all', 'active', 'completed'].map(label => html`
+              <button
+                class="${store.filter == label && 'selected'}"
+                @click="setFilter"
+                data-filter="${label}"
+              >
+                ${label}
+              </button>
+            `)}
+          </span>
+          <button class="flat" @click="clearCompleted">Clear completed</button>
+        </footer>
+      `}
+    `
+  }
+}
+
+class TodoItem extends HTMLElement {
+  connectedCallback() {
+    this.index = this.getAttribute('data-index')
+    this.item = store.items[this.index]
+    this.editing = false
+    this.render()
+  }
+  get $input() {
+    return this.querySelector('[ref="input"]')
+  }
+  edit(e) {
+    e.preventDefault()
+    this.editing = true
+    this.render()
+    this.querySelector('input[type="text"]').focus()
+  }
+  save(e) {
+    this.editing = false
+    store.setItem(this.index, { title: this.$input.value })
+    this.render()
+  }
+  remove(e) {
+    store.removeItem(this.index)
+  }
+  done(e) {
+    store.setItem(this.index, { done: e.target.checked })
+  }
+  render() {
+    this.innerHTML = html`
+      <input type="checkbox" @click="done" ${this.item.done && 'checked'}>
+      ${this.editing ? html`
+        <form @submit="save" class="title">
+          <input ref="input" type="text" @focusout="save" value="${this.item.title}">
+        </form>
+      ` : html`
+        <span class="title" @dblclick="edit">${this.item.title}</span>
+      `}
+      <button @click="remove">&times;</button>
+    `
+  }
+}
+
+customElements.define('todo-app', TodoApp)
+customElements.define('todo-list', TodoList)
+customElements.define('todo-item', TodoItem)
+
+function html(s, ...e) {
+  self.$e ||= (n, e, c=e.target) => {
+    while (!c.tagName.match(/-/)) c = c.parentNode
+    c[e.target.getAttribute(n)]?.call(c, e)
+  }
+  return new String(s
+    .reduce((a,v,i) => a += v+[e[i]].flat()
+    .map(x => x instanceof String ? x : x === 0 ? x : String(x || '')
+    .replace(/[<>'"]/g, c => `&#${c.charCodeAt(0)}`)).join``, "")
+    .replace(/( (@(\w+))=["'])/g, (_,v,m,n) =>
+      document.body.setAttribute(`on${n}`,`$e('${m}',event)`)||v))
+}
+
+
+</script>

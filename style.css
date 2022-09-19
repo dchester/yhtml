@@ -1,0 +1,65 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: auto;
+  font-family: Arial, sans-serif;
+  background: #f3f5f8;
+  padding: 32px;
+}
+todo-app {
+  display: block;
+  margin: auto;
+  max-width: 500px;
+}
+todo-app .add-item input {
+  padding: 0.5em 0.8em;
+  margin: 12px 0;
+  font-size: larger;
+  width: 100%;
+}
+todo-app > footer {
+  margin-top: 48px;
+  font-size: smaller;
+  text-align: center;
+}
+todo-item {
+  display: flex;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+  gap: 8px;
+}
+todo-item .title {
+  flex: 1;
+}
+todo-item input[type="text"] {
+  width: 100%;
+}
+card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px #1112;
+  display: block;
+  padding: 32px;
+}
+h1 {
+  margin: 0;
+}
+button.flat {
+  appearance: none;
+  background: none;
+  border: none;
+}
+button.selected {
+  filter: invert(1);
+}
+todo-list > footer {
+  justify-content: space-between;
+  margin-top: 24px;
+}
+.flex {
+  display: flex;
+}
+.muted {
+  opacity: 0.5;
+}
