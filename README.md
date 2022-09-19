@@ -1,6 +1,6 @@
 # yhtml
 
-Tiny html tag function for rendering Web Component templates with event binding
+Tiny html tag function for rendering Web Component templates with event binding.  See a working todo [example](https://dchester.github.io/yhtml) and [source](https://github.com/dchester/yhtml/example.html)
 
 
 ### Introduction
@@ -46,7 +46,7 @@ Install from the npm registry:
 npm install yhtml
 ```
 
-Or, of course your are free to embed it directly in your project.  Here is the library in its entirety:
+Or, of course you are free to embed it directly in your project.  Here is the library in its entirety:
 ```javascript
 function html(s, ...e) {
   self.$e ||= (n, e, c=e.target) => {
@@ -102,5 +102,8 @@ class MyCounter extends HTMLElement {
 ```
 
 Events are handled via event delegation with handlers on window in order so that setting `innerHTML` in components can be as performant as possible.  As a consequence, any bound events must be ones that bubble.  So for example, instead of `focus` and `blur`, use `focusin` and `focusout`.
+
+### License
+
 
 
