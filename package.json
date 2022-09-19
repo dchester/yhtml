@@ -1,4 +1,5 @@
 {
+  "version": "0.4.1",
   "name": "yhtml",
   "description": "Tiny html tag function for rendering Web Component templates",
   "type": "module",
