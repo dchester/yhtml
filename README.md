@@ -1,6 +1,6 @@
 # yhtml
 
-Tiny html tag function for rendering Web Component templates with event binding.  See a working todo [example](https://dchester.github.io/yhtml) and [source](https://github.com/dchester/yhtml/example.html)
+Tiny html tag function for rendering Web Component templates with event binding.  See a working todo [example](https://dchester.github.io/yhtml/example.html) and [source](https://github.com/dchester/yhtml/blob/main/example.html)
 
 
 ### Introduction
