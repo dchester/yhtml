@@ -5,7 +5,7 @@ Tiny html tag function for rendering Web Component templates with event binding.
 
 ### Introduction
 
-This library implements a tag function to be used with custom elements. It brings sensible interpolation and event binding in just 481 bytes.  Rendering is via wholesale innerHTML replacement, but events are handled through event delegation, so they survive across renders.
+This library implements a tag function to be used with custom elements. It brings sensible interpolation and event binding in just 481 bytes.  Rendering is via wholesale `innerHTML` replacement, but events are handled through event delegation, so they survive across renders.
 
 ```html
 <my-counter></my-counter>
