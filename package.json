@@ -1,6 +1,8 @@
 {
+  "name": "yhtml",
+  "description": "Tiny html tag function for rendering Web Component templates",
   "type": "module",
   "devDependencies": {
-    "linkedom": "*"
+    "linkedom": "0.14.7"
   }
 }
