@@ -67,22 +67,22 @@ function html(s, ...e) {
 This library brings a few nicities to interpolating html which are lacking by default with raw template strings.
 
 Use short-circuit logic with `&&` when testing for truthiness:
-```
+```javascript
 html`<div class="${isSelected && 'selected'}">`
 ```
 
 Iterate over arrays of items with `map`:
-```
+```javascript
 html`${items.map(item => html`<li>${item.title}</li>`)}`
 ```
 
 Interpolated values are HTML-escaped by default.
-```
+```javascript
 html`<span>Will be escaped: ${description}</span>`
 ```
 
 To include html content as-is, invoke directly html as a function taking an array of raw content:
-```
+```javascript
 html`<div>${html([sanitizedDescription])}</div>`
 ```
 
@@ -90,7 +90,7 @@ html`<div>${html([sanitizedDescription])}</div>`
 
 Bind events with `@event` attributes:
 
-```
+```javascript
 class MyCounter extends HTMLElement {
   increment() {
     this.count++;
