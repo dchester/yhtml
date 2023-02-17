@@ -81,7 +81,7 @@ Interpolated values are HTML-escaped by default.
 html`<span>Will be escaped: ${description}</span>`
 ```
 
-To include html content as-is, invoke `html` directly a function, taking an array of raw content:
+To include html content as-is, invoke `html` directly as a function, taking an array of raw content:
 ```javascript
 html`<div>${html([sanitizedDescription])}</div>`
 ```
