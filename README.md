@@ -64,7 +64,7 @@ function html(s, ...e) {
 
 ### Interpolation
 
-This library brings a few nicities to interpolating html which are lacking by default with raw template strings.
+This library brings a few niceties to interpolating html which are lacking by default with raw template strings.
 
 Use short-circuit logic with `&&` when testing for truthiness:
 ```javascript
