@@ -94,9 +94,10 @@ Bind events with `@event` attributes:
 class MyCounter extends HTMLElement {
   increment() {
     this.count++;
+    this.render();
   },
   render() {
-    html`<button @click="increment">+1</button>
+    html`<button @click="increment">${this.count}</button>`
   }
 }
 ```
